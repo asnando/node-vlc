@@ -4,7 +4,8 @@
   "description": "A library for controlling vlc from Node.js.",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint index.js --fix"
+    "lint": "eslint index.js --fix",
+    "example": "node example.js"
   },
   "keywords": [],
   "author": "Fernando Rama",

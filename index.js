@@ -25,6 +25,7 @@ const VLC_FONT_COLOR_PALETTE = {
 const isString = (str) => typeof str === 'string';
 // eslint-disable-next-line no-restricted-globals
 const isNumber = (n) => !isNaN(n);
+const isMacOs = () => process.platform === 'darwin';
 
 function resolveSubtitleFontColorCode(name) {
   const palette = VLC_FONT_COLOR_PALETTE;
@@ -101,6 +102,10 @@ function NodeVLC(...args) {
     if (isNumber(initialVolume)) {
       args.push(`--volume=${initialVolume}`);
     }
+    // enables interactive mode in MacOS
+    if (isMacOs()) {
+      args.push('--control', 'rc');
+    }
     return args;
   }
 
@@ -119,11 +124,19 @@ function NodeVLC(...args) {
   function spawnPlayer() {
     const vlcArgs = buildArgs(playerArgs);
     print('vlc args', vlcArgs);
-    spawned = spawn('vlc', vlcArgs);
-    spawned.stdin.setEncoding('utf-8');
-    setPlayingState(true);
-    spawned.on('close', onPlayerClose);
-    spawned.on('error', onPlayerError);
+    try {
+      if (isMacOs()) {
+        spawned = spawn('/Applications/VLC.app/Contents/MacOS/VLC', vlcArgs);
+      } else {
+        spawned = spawn('vlc', vlcArgs);
+      }
+      spawned.stdin.setEncoding('utf-8');
+      setPlayingState(true);
+      spawned.on('close', onPlayerClose);
+      spawned.on('error', onPlayerError);
+    } catch (exception) {
+      onPlayerError(exception);
+    }
   }
 
   spawnPlayer();
