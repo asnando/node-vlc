@@ -94,7 +94,7 @@ function NodeVLC(...args) {
       args.push(`--freetype-rel-fontsize=${fontSize}`);
     }
     if (isString(subtitle)) {
-      args.push(`--sub-file="${subtitle}"`);
+      args.push(`--sub-file=${subtitle}`);
     }
     if (isNumber(subtitleBackgroundOpacity)) {
       args.push(`--freetype-background-opacity=${subtitleBackgroundOpacity}`);
