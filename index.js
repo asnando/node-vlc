@@ -81,7 +81,7 @@ function NodeVLC(...args) {
     fontSize,
     subtitle,
     subtitleBackgroundOpacity,
-    initialVolume,
+    // initialVolume,
   } = {}) {
     // eslint-disable-next-line no-shadow
     const args = [];
@@ -99,9 +99,9 @@ function NodeVLC(...args) {
     if (isNumber(subtitleBackgroundOpacity)) {
       args.push(`--freetype-background-opacity=${subtitleBackgroundOpacity}`);
     }
-    if (isNumber(initialVolume)) {
-      args.push(`--volume=${initialVolume}`);
-    }
+    // if (isNumber(initialVolume)) {
+    //   args.push(`--volume=${initialVolume}`);
+    // }
     // enables interactive mode in MacOS
     if (isMacOs()) {
       args.push('--control', 'rc');
